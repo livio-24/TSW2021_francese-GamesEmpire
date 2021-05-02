@@ -50,13 +50,6 @@ private static final long serialVersionUID = 1L;
 		this.quantità = quantità;
 	}
 	
-	public String getMarca() {
-		return marca;
-	}
-	
-	public void setMarca(String marca) {
-		this.marca = marca;
-	}
 	
 	public int getAnno() {
 		return anno;
@@ -92,7 +85,7 @@ private static final long serialVersionUID = 1L;
 
 	@Override
 	public String toString() {
-		return nome + idProdotto + prezzo + descrizione + categoria + quantità + marca + anno +iva;
+		return nome +", " + idProdotto +", " + prezzo +", " + descrizione +", " + categoria +", " + quantità +", " + anno + ", " +iva;
 	}
 
 	private int idProdotto;
@@ -100,7 +93,6 @@ private static final long serialVersionUID = 1L;
 	private String nome;
 	private String descrizione;
 	private int quantità;
-	private	String marca;
 	private int anno;
 	private boolean inVendita;
 	private String iva;

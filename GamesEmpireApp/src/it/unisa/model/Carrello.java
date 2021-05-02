@@ -10,34 +10,38 @@ public class Carrello {
 		prodotti = new ArrayList<ItemCarrello>();
 	}
 	
-	public void addProdotto(int idProdotto) {
+	public void addProdotto(ProdottoBean prodotto) {
 		for(ItemCarrello item : prodotti) {
-			if(item.getId() == idProdotto) {
+			if(item.getId() == prodotto.getIdProdotto()) {
 				item.incrementa();
 				return;
 			}
 		}
 		
-		ProdottoBean prod = null;
-		ArrayList <ProdottoBean> products = request.getAttribute("products");
-		for(ProdottoBean prodotto : products) {
-			if(prodotto.getIdProdotto() == idProdotto)
-				prod = prodotto;
-		}
 		
-		ItemCarrello item = new ItemCarrello(prod);
+		ItemCarrello item = new ItemCarrello(prodotto);
 		prodotti.add(item);
 	}
 	
 	
-	public void deleteProdotto(int idProdotto) {
+	public void deleteProdotto(ProdottoBean prodotto) {
 		for(ItemCarrello prod : prodotti) {
-			if(prod.getId() == idProdotto) {
+			if(prod.getId() == prodotto.getIdProdotto()) {
 				prodotti.remove(prod);
 				break;
 			}
 		}
  	}
+	
+	public ItemCarrello getItem(int id) {
+		
+		for(ItemCarrello item : prodotti) {
+			if(item.getId() == id)
+				return item;
+		}
+		
+		return null;
+	}
 	
 	
 	public double calcolaCosto() {
@@ -49,10 +53,16 @@ public class Carrello {
 	}
 	
 	
-	public List<ItemCarrello> getProdotti() {
+	public ArrayList<ItemCarrello> getProdotti() {
 		return  prodotti;
 	}
 	
+	public void svuota() {
+
+		prodotti.removeAll(prodotti);
+			
+	}
 	
-	private List<ItemCarrello> prodotti;
+	
+	private ArrayList<ItemCarrello> prodotti;
 }

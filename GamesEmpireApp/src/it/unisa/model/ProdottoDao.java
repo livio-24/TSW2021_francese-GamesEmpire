@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -21,7 +22,7 @@ public class ProdottoDao implements ProdottoDaoInterfaccia{
 			Context initCtx = new InitialContext();
 			Context envCtx = (Context) initCtx.lookup("java:comp/env");
 
-			ds = (DataSource) envCtx.lookup("jdbc/storage");
+			ds = (DataSource) envCtx.lookup("jdbc/storage1");
 
 		} catch (NamingException e) {
 			System.out.println("Error:" + e.getMessage());
@@ -47,7 +48,6 @@ public class ProdottoDao implements ProdottoDaoInterfaccia{
 			preparedStatement.setString(3, product.getDescrizione());
 			preparedStatement.setDouble(4, product.getPrezzo());
 			preparedStatement.setInt(5, product.getQuantità());
-			preparedStatement.setString(6, product.getMarca());
 			preparedStatement.setInt(7, product.getAnno());
 			preparedStatement.setBoolean(8, product.isInVendita());
 			preparedStatement.setString(9, product.getIva());
@@ -89,7 +89,7 @@ public class ProdottoDao implements ProdottoDaoInterfaccia{
 				bean.setPrezzo(rs.getInt("PREZZO"));
 				bean.setQuantità(rs.getInt("QUANTITA"));
 				bean.setCategoria(rs.getString("CATEGORIA"));
-				bean.setMarca(rs.getString("MARCA"));
+				bean.setIva(rs.getString("IVA"));
 				bean.setAnno(rs.getInt("ANNO"));
 				bean.setInVendita(rs.getBoolean("IN_VENDITA"));
 			}
@@ -135,11 +135,11 @@ public class ProdottoDao implements ProdottoDaoInterfaccia{
 	}
 
 	@Override
-	public synchronized Collection<ProdottoBean> doRetrieveAll(String order) throws SQLException {
+	public synchronized ArrayList<ProdottoBean> doRetrieveAll(String order) throws SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
-		Collection<ProdottoBean> products = new LinkedList<ProdottoBean>();
+		ArrayList<ProdottoBean> products = new ArrayList<ProdottoBean>();
 
 		String selectSQL = "SELECT * FROM " + ProdottoDao.TABLE_NAME;
 
@@ -159,10 +159,10 @@ public class ProdottoDao implements ProdottoDaoInterfaccia{
 				bean.setIdProdotto(rs.getInt("ID_PRODOTTO"));
 				bean.setNome(rs.getString("NOME"));
 				bean.setDescrizione(rs.getString("DESCRIZIONE"));
-				bean.setPrezzo(rs.getInt("PREZZO"));
+				bean.setPrezzo(rs.getDouble("PREZZO"));
 				bean.setQuantità(rs.getInt("QUANTITA"));
+				bean.setIva(rs.getString("IVA"));
 				bean.setCategoria(rs.getString("CATEGORIA"));
-				bean.setMarca(rs.getString("MARCA"));
 				bean.setAnno(rs.getInt("ANNO"));
 				bean.setInVendita(rs.getBoolean("IN_VENDITA"));
 				products.add(bean);
