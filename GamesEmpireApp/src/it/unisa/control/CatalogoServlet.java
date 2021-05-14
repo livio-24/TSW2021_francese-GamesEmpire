@@ -23,13 +23,13 @@ public class CatalogoServlet extends HttpServlet {
 		String sort = request.getParameter("sort");
 
 		try {
-			request.removeAttribute("products");
-			request.setAttribute("products", prodDao.doRetrieveAll(sort));
+			request.getSession().removeAttribute("products");
+			request.getSession().setAttribute("products", prodDao.doRetrieveAll(sort));
 		} catch (SQLException e) {
 			System.out.println("Error:" + e.getMessage());
 		}
 
-		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/CatalogoView.jsp");
+		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Catalogo.jsp");
 		dispatcher.forward(request, response);
 	}
 

@@ -30,7 +30,9 @@ public class CarrelloServlet extends HttpServlet{
 		}
 		
 		String action = request.getParameter("action");
-
+		String quantit‡ = request.getParameter("qnt");
+		
+		
 		try {
 			if (action != null) {
 				if (action.equalsIgnoreCase("addC")) {
@@ -39,38 +41,31 @@ public class CarrelloServlet extends HttpServlet{
 				} else if (action.equalsIgnoreCase("deleteC")) {
 					int id = Integer.parseInt(request.getParameter("id"));
 					cart.deleteProdotto(prodDao.doRetrieveByKey(id));
-					RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/CarrelloView.jsp");
+					RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Carrello.jsp");
 					dispatcher.forward(request, response);
-				}else if (action.equalsIgnoreCase("viewC")) {
-					RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/CarrelloView.jsp");
-					dispatcher.forward(request, response);
-				}else if(action.equalsIgnoreCase("aggiungiUnita")) {
-					int id = Integer.parseInt(request.getParameter("id"));
-					ItemCarrello item = cart.getItem(id);
-					item.incrementa();
-					RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/CarrelloView.jsp");
-					dispatcher.forward(request, response);
-				}else if(action.equalsIgnoreCase("rimuoviUnita")) {
-					int id = Integer.parseInt(request.getParameter("id"));
-					ItemCarrello item = cart.getItem(id);
-					item.decrementa();
-					RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/CarrelloView.jsp");
-					dispatcher.forward(request, response);
-				}else if(action.equalsIgnoreCase("checkout")) {
-					cart.svuota();
-					RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/CarrelloView.jsp");
-					dispatcher.forward(request, response);
+					return;
 				}
 			}
+				if(quantit‡!=null) {
+					int id = Integer.parseInt(request.getParameter("Id"));
+					ItemCarrello item = cart.getItem(id);
+					item.setQuantit‡Carrello(Integer.parseInt(quantit‡));
+					RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Carrello.jsp");
+					dispatcher.forward(request, response);
+					return;
+				}
+			
 			
 		} catch (SQLException e) {
 			System.out.println("Error:" + e.getMessage());
 		}
 		
+	
+		
 		request.getSession().setAttribute("cart", cart);
 		request.setAttribute("cart", cart);
 		
-		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/CatalogoView.jsp");
+		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Catalogo.jsp");
 		dispatcher.forward(request, response);
 	}
 

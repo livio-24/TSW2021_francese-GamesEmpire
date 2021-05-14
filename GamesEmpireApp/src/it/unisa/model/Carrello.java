@@ -52,17 +52,27 @@ public class Carrello {
 		return tot;	
 	}
 	
+	public boolean isEmpty() {
+		return (prodotti.size()== 0 );
+	}
 	
 	public ArrayList<ItemCarrello> getProdotti() {
 		return  prodotti;
 	}
 	
 	public void svuota() {
-
+		
 		prodotti.removeAll(prodotti);
 			
 	}
 	
+	public int size() {
+		return prodotti.size();
+	}
+	
+	public ItemCarrello get(int index) {
+		return prodotti.get(index);
+	}
 	
 	private ArrayList<ItemCarrello> prodotti;
 }

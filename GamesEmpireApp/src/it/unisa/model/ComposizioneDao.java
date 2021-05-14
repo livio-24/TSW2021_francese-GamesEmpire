@@ -37,10 +37,11 @@ public class ComposizioneDao implements ComposizioneDaoInterfaccia{
 		PreparedStatement preparedStatement = null;
 
 		String insertSQL = "INSERT INTO " + ComposizioneDao.TABLE_NAME
-						+ " (ID_ORDINE, ID_PRODOTTO, QUANTITA, IVA, PREZZO_TOTALE) VALUES (?, ?, ?, ?, ?) ";
+						+ " (ID_ORDINE, ID_PRODOTTO, QUANTITA, IVA, PREZZO_TOT) VALUES (?, ?, ?, ?, ?) ";
 
 		try {
 			connection = ds.getConnection();
+			connection.setAutoCommit(false);
 			preparedStatement = connection.prepareStatement(insertSQL);
 			preparedStatement.setInt(1, composizione.getIdOrdine());
 			preparedStatement.setInt(2, composizione.getIdProdotto());
@@ -49,7 +50,7 @@ public class ComposizioneDao implements ComposizioneDaoInterfaccia{
 			preparedStatement.setDouble(5, composizione.getPrezzoTotale());
 			
 			preparedStatement.executeUpdate();
-
+			
 			connection.commit();
 		} 
 		finally {
@@ -89,7 +90,7 @@ public class ComposizioneDao implements ComposizioneDaoInterfaccia{
 				composizione.setIdProdotto(rs.getInt("ID_PRODOTTO"));
 				composizione.setQuantità(rs.getInt("QUANTITA"));
 				composizione.setIva(rs.getString("IVA"));
-				composizione.setPrezzoTotale(rs.getDouble("PREZZO_TOTALE"));
+				composizione.setPrezzoTotale(rs.getDouble("PREZZO_TOT"));
 				composizioni.add(composizione);
 			}
 		}

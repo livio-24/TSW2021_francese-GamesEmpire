@@ -38,15 +38,22 @@ public class OrdineDao implements OrdineDaoInterfaccia {
 		PreparedStatement preparedStatement = null;
 
 		String insertSQL = "INSERT INTO " + OrdineDao.TABLE_NAME
-				+ " (EMAIL, IMPORTO_TOTALE, STATO, DATA) VALUES (?, ?, ?, ?)";
+				+ " (EMAIL, IMPORTO_TOTALE, STATO, DATA_ORDINE, INDIRIZZO, CAP, CARTA_CREDITO, ID_ORDINE) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
 		try {
 			connection = ds.getConnection();
+			connection.setAutoCommit(false);
 			preparedStatement = connection.prepareStatement(insertSQL);
 			preparedStatement.setString(1, ordine.getEmail());
 			preparedStatement.setDouble(2, ordine.getImportoTotale());
 			preparedStatement.setString(3, ordine.getStato());
-			preparedStatement.setDate(4, (Date) ordine.getData());
+			preparedStatement.setString(4, ordine.getData());
+			preparedStatement.setString(5, ordine.getIndirizzo());
+			preparedStatement.setString(6, ordine.getCap());
+			preparedStatement.setString(7, ordine.getCartaCredito());
+			preparedStatement.setInt(8, ordine.getIdOrdine());
+
+
 
 			preparedStatement.executeUpdate();
 
@@ -87,7 +94,10 @@ public class OrdineDao implements OrdineDaoInterfaccia {
 				ordine.setEmail(rs.getString("EMAIL"));
 				ordine.setImportoTotale(rs.getDouble("IMPORTO_TOTALE"));
 				ordine.setStato(rs.getString("STATO"));
-				ordine.setData(rs.getDate("DATA"));
+				ordine.setData(rs.getString("DATA_ORDINE"));
+				ordine.setIndirizzo(rs.getString("INDIRIZZO"));
+				ordine.setCap(rs.getString("CAP"));
+				ordine.setCartaCredito(rs.getString("CARTA_CREDITO"));
 			}
 
 		} 
@@ -129,7 +139,10 @@ public class OrdineDao implements OrdineDaoInterfaccia {
 				ordine.setEmail(rs.getString("EMAIL"));
 				ordine.setImportoTotale(rs.getDouble("IMPORTO_TOTALE"));
 				ordine.setStato(rs.getString("STATO"));
-				ordine.setData(rs.getDate("DATA"));
+				ordine.setData(rs.getString("DATA_ORDINE"));
+				ordine.setIndirizzo(rs.getString("INDIRIZZO"));
+				ordine.setCap(rs.getString("CAP"));
+				ordine.setCartaCredito(rs.getString("CARTA_CREDITO"));
 				ordini.add(ordine);
 			}
 		}
@@ -174,7 +187,10 @@ public class OrdineDao implements OrdineDaoInterfaccia {
 				ordine.setEmail(rs.getString("EMAIL"));
 				ordine.setImportoTotale(rs.getDouble("IMPORTO_TOTALE"));
 				ordine.setStato(rs.getString("STATO"));
-				ordine.setData(rs.getDate("DATA"));
+				ordine.setData(rs.getString("DATA_ORDINE"));
+				ordine.setIndirizzo(rs.getString("INDIRIZZO"));
+				ordine.setCap(rs.getString("CAP"));
+				ordine.setCartaCredito(rs.getString("CARTA_CREDITO"));
 				ordini.add(ordine);
 			}
 		}

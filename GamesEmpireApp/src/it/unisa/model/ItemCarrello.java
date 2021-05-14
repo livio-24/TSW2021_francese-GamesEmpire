@@ -28,8 +28,9 @@ public class ItemCarrello {
 	}
 	
 	public double getTotalPrice() {
-		double tot = quantit‡Carrello * prodotto.getPrezzo();
-		return tot;
+		return quantit‡Carrello * prodotto.getPrezzo();
+		
+
 	}
 	
 	public String getDescription() {

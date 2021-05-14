@@ -59,11 +59,11 @@ public class UserBean implements Serializable {
 		this.dataDiNascita = dataDiNascita;
 	}
 	
-	public int getCartaDiCredito() {
+	public String getCartaDiCredito() {
 		return cartaDiCredito;
 	}
 	
-	public void setCartaDiCredito(int cartaDiCredito) {
+	public void setCartaDiCredito(String cartaDiCredito) {
 		this.cartaDiCredito = cartaDiCredito;
 	}
 	
@@ -105,7 +105,7 @@ public class UserBean implements Serializable {
 	private String password;
 	private String email;
 	private Date dataDiNascita;
-	private int cartaDiCredito;
+	private String cartaDiCredito;
 	private String indirizzo;
 	private String cap;
 	private boolean amministratore;

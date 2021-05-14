@@ -43,18 +43,45 @@ public class OrdineBean implements Serializable {
 		this.stato = stato;
 	}
 	
-	public Date getData() {
+	public String getData() {
 		return data;
 	}
 	
-	public void setData(Date data) {
+	public void setData(String data) {
 		this.data = data;
 	}
 
+	public String getIndirizzo() {
+		return indirizzo;
+	}
+	
+	public void setIndirizzo(String indirizzo) {
+		this.indirizzo = indirizzo;
+	}
+	
+	public String getCap() {
+		return cap;
+	}
+	
+	public void setCap(String cap) {
+		this.cap = cap;
+	}
+	
+	public String getCartaCredito() {
+		return cartaCredito;
+	}
+	
+	public void setCartaCredito(String cartaCredito) {
+		this.cartaCredito = cartaCredito;
+	}
+	
 	private int idOrdine;
 	private String email;
 	private double importoTotale;
 	private String stato;
-	private Date data;
+	private String data;
+	private String indirizzo;
+	private String cap;
+	private String cartaCredito;
 	
 }

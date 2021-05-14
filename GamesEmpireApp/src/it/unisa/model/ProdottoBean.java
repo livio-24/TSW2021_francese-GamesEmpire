@@ -18,18 +18,11 @@ private static final long serialVersionUID = 1L;
 		this.idProdotto = idProdotto;
 	}
 	
-	public String getCategoria() {
-		return categoria;
-	}
-
-	public void setCategoria(String categoria) {
-		this.categoria = categoria;
-	}
 
 	public String getNome() {
 		return nome;
 	}
-
+	
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
@@ -50,14 +43,6 @@ private static final long serialVersionUID = 1L;
 		this.quantità = quantità;
 	}
 	
-	
-	public int getAnno() {
-		return anno;
-	}
-	
-	public void setAnno(int anno) {
-		this.anno = anno;
-	}
 	
 	public boolean isInVendita() {
 		return inVendita;
@@ -83,18 +68,62 @@ private static final long serialVersionUID = 1L;
 		this.prezzo = prezzo;
 	}
 
+	public String getDataUscita() {
+		return dataUscita;
+	}
+	
+	public void setDataUscita(String dataUscita) {
+		this.dataUscita = dataUscita;
+	}
+	
+	public String getGenere() {
+		return genere;
+	}
+	
+	public void setGenere(String genere) {
+		this.genere = genere;
+	}
+	
+	public String getImmagine() {
+		return immagine;
+	}
+	
+	public void setImmagine(String immagine) {
+		this.immagine = immagine;
+	}
+	
+	public String getPiattaforma() {
+		return piattaforma;
+	}
+	
+	public void setPiattaforma(String piattaforma) {
+		this.piattaforma = piattaforma;
+	}
+	
+	public String getDescrizioneDettagliata() {
+		return descrizioneDettagliata;
+	}
+	
+	public void setDescrizioneDettagliata(String descrizioneDettagliata) {
+		this.descrizioneDettagliata = descrizioneDettagliata;
+	}
+	
+	
 	@Override
 	public String toString() {
-		return nome +", " + idProdotto +", " + prezzo +", " + descrizione +", " + categoria +", " + quantità +", " + anno + ", " +iva;
+		return nome +", " + idProdotto +", " + prezzo +", " + descrizione +", " + piattaforma +", " + quantità +", " + genere+", "+ immagine+", " + dataUscita + ", " +iva;
 	}
 
 	private int idProdotto;
-	private String categoria;
+	private String piattaforma;
 	private String nome;
 	private String descrizione;
 	private int quantità;
-	private int anno;
+	private String dataUscita;
 	private boolean inVendita;
 	private String iva;
 	private double prezzo;
+	private String immagine;
+	private String genere;
+	private String descrizioneDettagliata;
 }

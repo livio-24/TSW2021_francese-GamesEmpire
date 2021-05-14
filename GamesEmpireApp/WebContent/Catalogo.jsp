@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8" import="it.unisa.model.ProdottoBean, java.util.*"%>
 
 <%
-	ArrayList<?> products = (ArrayList<?>) request.getAttribute("products");
+	ArrayList<?> products = (ArrayList<?>) request.getSession().getAttribute("products");
 	if(products == null) {
 		response.sendRedirect("./catalogo");	
 		return;
@@ -13,18 +13,24 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<link href="css/Style.css" rel="stylesheet" type="text/css">
+	<link href="css/style.css" rel="stylesheet" type="text/css">
 	<title>Catalogo</title>
 </head>
 
 <body>
-	<h2>Catalogo</h2>
-	<table border="1">
+
+	<%@ include file="../fragments/header.jsp" %>
+	<%@ include file="../fragments/menu.jsp" %>
+	
+	<div id="main" class="clear">
+	
+	<table>
 		<tr>
-			<th>ID <a href="catalogo?sort=idProdotto">Ordina</a></th>
-			<th>Nome <a href="catalogo?sort=nome">Ordina</a></th>
-			<th>Descrizione<a href="catalogo?sort=descrizione">Ordina</a></th>
-			<th>Azione</th>
+		
+			<th>Nome</th>
+			<th>Descrizione</th>
+			<th></th>
+		
 		</tr>
 		<%
 			if (products != null && products.size() != 0) {
@@ -33,13 +39,12 @@
 					ProdottoBean bean = (ProdottoBean) it.next();
 		%>
 		<tr>
-			<td><%=bean.getIdProdotto()%></td>
+		
 			<td><%=bean.getNome()%></td>
 			<td><%=bean.getDescrizione()%></td>
-			<td>
-				<a href="dettagli?id=<%=bean.getIdProdotto()%>" target="_parent">Dettagli</a><br>
-				<a href="carrello?action=addC&id=<%=bean.getIdProdotto()%>">Aggiungi al carrello</a>
-			</td>
+			<td><img src="<%=bean.getImmagine()%>" height="100" width="100"><br>
+			<a href="dettagli?id=<%=bean.getIdProdotto()%>"><button>Dettagli</button></a> <a href="carrello?action=addC&id=<%=bean.getIdProdotto()%>"><button>Aggiungi al carrello</button></a></td>
+			
 		</tr>
 		<%
 				}
@@ -52,11 +57,11 @@
 			}
 		%>
 	</table>
-	<br>
-		
-	<div class="center">
-		<a href="CarrelloView.jsp"> <img src="images/carrello.jpg" alt="carrello" width="50" height="50" ></img> </a>
+	
+	
 	</div>
+	
+		<%@ include file="./fragments/footer.jsp" %>
 	
 </body>
 </html>

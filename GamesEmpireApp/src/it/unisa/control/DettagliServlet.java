@@ -21,22 +21,8 @@ public class DettagliServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		ProdottoDao prodDao = new ProdottoDao();
-		Carrello cart = (Carrello)request.getSession().getAttribute("cart");
-		if(cart == null) {
-			cart = new Carrello();
-			request.getSession().setAttribute("cart", cart);
-		}
-		
-		String action = request.getParameter("action");
 		
 		try {
-			if (action != null) {
-				if (action.equalsIgnoreCase("addC")) {
-					int id = Integer.parseInt(request.getParameter("id"));
-					cart.addProdotto(prodDao.doRetrieveByKey(id));
-				}
-			}
-			
 				int id = Integer.parseInt(request.getParameter("id"));
 				request.removeAttribute("product");
 				request.setAttribute("product", prodDao.doRetrieveByKey(id));
@@ -45,11 +31,8 @@ public class DettagliServlet extends HttpServlet {
 		} catch (SQLException e) {
 			System.out.println("Error:" + e.getMessage());
 		}
-
-		request.getSession().setAttribute("cart", cart);
-		request.setAttribute("cart", cart);
 		
-		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/DettagliView.jsp");
+		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Dettagli.jsp");
 		dispatcher.forward(request, response);
 	}
 

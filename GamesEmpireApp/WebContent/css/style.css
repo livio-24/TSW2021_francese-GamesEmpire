@@ -1,0 +1,203 @@
+@CHARSET "UTF-8";
+
+html{
+	height: 100%;
+}
+
+body {
+ font-family: Verdana, Helvetica, sans-serif;
+ font-size: 9pt;
+ background: #FFF;
+ color: #000;
+ min-height: 100vh;
+}
+
+
+h2 {
+	text-align: center;
+}
+
+a:link {
+	color: blue;
+	font-weight: bold;
+}
+
+/* visited link */
+a:visited {
+	color: blue;
+	font-weight: bold;
+}
+
+/* mouse over link */
+a:hover {
+	color: red;
+	font-weight: bold;
+}
+
+a:active {
+	color: blue;
+	font-weight: bold;
+}
+
+table {
+	border: none;
+	border-collapse: collapse;
+	margin: 10px;
+	width: 90%;
+}
+
+
+th {
+
+	/*background-color: #E2E2E2;*/
+	color: #000000;
+	text-align: left;
+	font-weight: bold;
+	padding: 2px 4px 2px 4px;
+	margin: 0;
+	font-style: italic;
+	/*font-size: smaller;*/
+}
+
+
+td {
+	margin: 0;
+	padding: 2px;
+	/*border: 1px solid #E2E2E2;*/
+	height: auto;
+	/*padding-left: 5px;
+	padding-right: 5px;*/
+}
+
+table.ordini{
+	border: 1px solid #5F6F7E;
+}
+
+table.ordini th{
+	border: 1px solid #5F6F7E;
+	background-color: #E2E2E2;
+}
+
+table.ordini td{
+	border: 1px solid #E2E2E2;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+div.center{
+	text-align: center;
+}
+
+#menu {	
+	margin: 2px;
+	clear: both;
+}
+
+
+#tabs li {
+	background-color: white;
+	/*margin-right: 2px;*/
+	padding: 5px;
+	list-style-type: none;
+	float: left;
+	border-top: grey solid 1px;
+	border-right: grey solid 1px;
+	border-left: grey solid 1px;
+	border-bottom: none;
+	height: 18px;
+	
+}
+
+#tabs li a {
+	text-decoration: none;
+}	
+
+.clear {
+	clear: both;
+}
+
+
+#main {
+	border: 1px solid  grey;
+	margin-left: 2px;
+	margin-right: 2px;
+	padding: 5px;
+	text-align: left;
+	
+}
+
+#footer {
+	position: sticky;
+	top: 100%;
+	/*width: 98%;*/
+	background-color: #26272b;
+	color: white;
+	/*border: 2px solid grey;*/
+	margin-top: 5px;
+	padding: 5px;
+	/*bottom: 5px;*/
+	text-align: center;
+}
+
+.header {
+	padding: 10px;
+	margin:20px;
+	
+}
+
+.left-header{
+	
+	float:left;
+}
+
+.right-header{
+	float: right;
+	
+}
+
+
+.right-header li{
+	background-color: #f1f1f1;
+	margin-right: 2px;
+	padding: 5px;
+	list-style-type: none;
+	float: left;
+	border: grey solid 1px;
+	border-radius: 4px;
+	height: 18px;
+}
+
+.right-header li a {
+	text-decoration: none;
+}
+
+.login{
+	width: 400px;
+	margin: 0 auto;
+	border: 2px solid grey;
+	border-radius: 2px;
+	text-align: center;
+	padding: 5px;
+}
+
+.price{
+	margin-left:10px;
+	font-weight: bold;
+	font-style:italic;
+	color: black;
+}
+
+#listDettagli li{
+	list-style-type: none;
+	margin: 15px 15px;
+}
+
+.dettagli{
+	font-weight: bold;
+	font-style:italic;
+	color: #0000ff;
+}
+
+.error{
+	color: red;
+}

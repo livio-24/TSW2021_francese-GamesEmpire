@@ -22,7 +22,7 @@ public class ProdottoDao implements ProdottoDaoInterfaccia{
 			Context initCtx = new InitialContext();
 			Context envCtx = (Context) initCtx.lookup("java:comp/env");
 
-			ds = (DataSource) envCtx.lookup("jdbc/storage1");
+			ds = (DataSource) envCtx.lookup("jdbc/storage");
 
 		} catch (NamingException e) {
 			System.out.println("Error:" + e.getMessage());
@@ -38,19 +38,24 @@ public class ProdottoDao implements ProdottoDaoInterfaccia{
 		PreparedStatement preparedStatement = null;
 
 		String insertSQL = "INSERT INTO " + ProdottoDao.TABLE_NAME
-				+ " (NOME, CATEGORIA, DESCRIZIONE, PREZZO, QUANTITA, MARCA, ANNO, IN_VENDITA, IVA) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				+ " (NOME, PIATTAFORMA, DESCRIZIONE, PREZZO, QUANTITA, GENERE, DATA_USCITA, IN_VENDITA, IVA, IMMAGINE, DESCRIZIONE_DETTAGLIATA) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
 
 		try {
 			connection = ds.getConnection();
+			connection.setAutoCommit(false);
 			preparedStatement = connection.prepareStatement(insertSQL);
 			preparedStatement.setString(1, product.getNome());
-			preparedStatement.setString(2, product.getCategoria());
+			preparedStatement.setString(2, product.getPiattaforma());
 			preparedStatement.setString(3, product.getDescrizione());
 			preparedStatement.setDouble(4, product.getPrezzo());
 			preparedStatement.setInt(5, product.getQuantità());
-			preparedStatement.setInt(7, product.getAnno());
+			preparedStatement.setString(6,product.getGenere());
+			preparedStatement.setString(7, product.getDataUscita());
 			preparedStatement.setBoolean(8, product.isInVendita());
 			preparedStatement.setString(9, product.getIva());
+			preparedStatement.setString(10, product.getImmagine());
+			preparedStatement.setString(11, product.getDescrizioneDettagliata());
+
 
 			preparedStatement.executeUpdate();
 
@@ -86,12 +91,17 @@ public class ProdottoDao implements ProdottoDaoInterfaccia{
 				bean.setIdProdotto(rs.getInt("ID_PRODOTTO"));
 				bean.setNome(rs.getString("NOME"));
 				bean.setDescrizione(rs.getString("DESCRIZIONE"));
-				bean.setPrezzo(rs.getInt("PREZZO"));
+				bean.setPrezzo(rs.getDouble("PREZZO"));
 				bean.setQuantità(rs.getInt("QUANTITA"));
-				bean.setCategoria(rs.getString("CATEGORIA"));
+				bean.setPiattaforma(rs.getString("PIATTAFORMA"));
 				bean.setIva(rs.getString("IVA"));
-				bean.setAnno(rs.getInt("ANNO"));
+				bean.setDataUscita(rs.getString("DATA_USCITA"));
 				bean.setInVendita(rs.getBoolean("IN_VENDITA"));
+				bean.setImmagine(rs.getString("IMMAGINE"));
+				bean.setGenere(rs.getString("GENERE"));
+				bean.setDescrizioneDettagliata(rs.getString("DESCRIZIONE_DETTAGLIATA"));
+
+
 			}
 
 		} finally {
@@ -161,10 +171,14 @@ public class ProdottoDao implements ProdottoDaoInterfaccia{
 				bean.setDescrizione(rs.getString("DESCRIZIONE"));
 				bean.setPrezzo(rs.getDouble("PREZZO"));
 				bean.setQuantità(rs.getInt("QUANTITA"));
+				bean.setPiattaforma(rs.getString("PIATTAFORMA"));
 				bean.setIva(rs.getString("IVA"));
-				bean.setCategoria(rs.getString("CATEGORIA"));
-				bean.setAnno(rs.getInt("ANNO"));
+				bean.setDataUscita(rs.getString("DATA_USCITA"));
 				bean.setInVendita(rs.getBoolean("IN_VENDITA"));
+				bean.setImmagine(rs.getString("IMMAGINE"));
+				bean.setGenere(rs.getString("GENERE"));
+				bean.setDescrizioneDettagliata(rs.getString("DESCRIZIONE_DETTAGLIATA"));
+
 				products.add(bean);
 			}
 
@@ -178,6 +192,39 @@ public class ProdottoDao implements ProdottoDaoInterfaccia{
 			}
 		}
 		return products;
+	}
+	
+	@Override
+	public synchronized void doUpdateQnt(int id, int qnt) throws SQLException {
+
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		String updateSQL = "UPDATE " + ProdottoDao.TABLE_NAME
+				+ " SET QUANTITA = ? "
+				+ " WHERE ID_PRODOTTO = ? ";
+
+		try {
+			connection = ds.getConnection();
+			connection.setAutoCommit(false);
+			preparedStatement = connection.prepareStatement(updateSQL);
+			preparedStatement.setInt(1, qnt);
+			preparedStatement.setInt(2, id);
+
+			
+
+			preparedStatement.executeUpdate();
+
+			connection.commit();
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} finally {
+				if (connection != null)
+					connection.close();
+			}
+		}
 	}
 
 }

@@ -5,6 +5,8 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -27,7 +29,7 @@ public class UserDao implements UserDaoInterfaccia {
 		}
 	}
 	
-	private static final String TABLE_NAME = "utente";
+	private static final String TABLE_NAME = "cliente";
 	
 	
 	@Override
@@ -37,10 +39,11 @@ public class UserDao implements UserDaoInterfaccia {
 		PreparedStatement preparedStatement = null;
 
 		String insertSQL = "INSERT INTO " + UserDao.TABLE_NAME 
-						+ " (NOME, COGNOME, USERNAME, PASSWORD, EMAIL, DATA_DI_NASCITA, CARTA_DI_CREDITO, INDIRIZZO, CAP, AMMINISTRATORE) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
+						+ " (NOME, COGNOME, USERNAME, PWD, EMAIL, DATA_NASCITA, CARTA_CREDITO, INDIRIZZO, CAP, AMMINISTRATORE) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
 		
 		try {
 			connection = ds.getConnection();
+			connection.setAutoCommit(false);
 			preparedStatement = connection.prepareStatement(insertSQL);
 			preparedStatement.setString(1, user.getNome());
 			preparedStatement.setString(2, user.getCognome());
@@ -48,7 +51,7 @@ public class UserDao implements UserDaoInterfaccia {
 			preparedStatement.setString(4, user.getPassword());
 			preparedStatement.setString(5, user.getEmail());
 			preparedStatement.setDate(6, (Date) user.getDataDiNascita());
-			preparedStatement.setInt(7, user.getCartaDiCredito());
+			preparedStatement.setString(7, user.getCartaDiCredito());
 			preparedStatement.setString(8, user.getIndirizzo());
 			preparedStatement.setString(9, user.getCap());
 			preparedStatement.setBoolean(10, user.isAmministratore());
@@ -71,7 +74,7 @@ public class UserDao implements UserDaoInterfaccia {
 
 
 	@Override
-	public synchronized UserBean doRetrive(String username, String password) throws SQLException {
+	public synchronized UserBean doRetrieve(String username, String password) throws SQLException {
 		//preparing some objects for connecNon 
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -79,8 +82,8 @@ public class UserDao implements UserDaoInterfaccia {
 		UserBean user = new UserBean();
 		
 		String searchQuery = "select * from " + UserDao.TABLE_NAME 
-							+ "	where username = ? '"
-							+ "' AND password = ? '";
+							+ "	where username = ? "
+							+ " AND pwd = ? ";
 		
 		try
 			{
@@ -89,7 +92,7 @@ public class UserDao implements UserDaoInterfaccia {
 			preparedStatement = connection.prepareStatement(searchQuery);
 			preparedStatement.setString(1, username);
 			preparedStatement.setString(2, password);
-			ResultSet rs = preparedStatement.executeQuery(searchQuery);
+			ResultSet rs = preparedStatement.executeQuery();
 			boolean more = rs.next();
 			// if user does not exist set the isValid variable to false
 				if (!more) 
@@ -99,12 +102,12 @@ public class UserDao implements UserDaoInterfaccia {
 				else if (more) 
 				{
 					user.setUsername(rs.getString("username"));
-					user.setPassword(rs.getString("password"));
+					user.setPassword(rs.getString("pwd"));
 					user.setEmail(rs.getString("email"));
 					user.setNome(rs.getString("nome"));
 					user.setCognome(rs.getString("cognome"));
-					user.setDataDiNascita(rs.getDate("data_di_nascita"));
-					user.setCartaDiCredito(rs.getInt("carta_di_credito"));
+					user.setDataDiNascita(rs.getDate("data_nascita"));
+					user.setCartaDiCredito(rs.getString("carta_credito"));
 					user.setIndirizzo(rs.getString("indirizzo"));
 					user.setCap(rs.getString("cap"));
 					user.setAmministratore(rs.getBoolean("amministratore"));
@@ -127,6 +130,56 @@ public class UserDao implements UserDaoInterfaccia {
 	 }
 
 		return user;
+	}
+	
+	@Override
+	public synchronized ArrayList<UserBean> doRetrieveAll(String order) throws SQLException {
+	
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		ArrayList<UserBean> users = new ArrayList<UserBean>();
+
+		String selectSQL = "SELECT * FROM " + UserDao.TABLE_NAME;
+
+		if (order != null && !order.equals("")) {
+			selectSQL += " ORDER BY " + order;
+		}
+
+		try {
+			connection = ds.getConnection();
+			preparedStatement = connection.prepareStatement(selectSQL);
+
+			ResultSet rs = preparedStatement.executeQuery();
+			
+			while (rs.next()) {
+				UserBean user = new UserBean();
+				user.setUsername(rs.getString("username"));
+				user.setPassword(rs.getString("pwd"));
+				user.setEmail(rs.getString("email"));
+				user.setNome(rs.getString("nome"));
+				user.setCognome(rs.getString("cognome"));
+				user.setDataDiNascita(rs.getDate("data_nascita"));
+				user.setCartaDiCredito(rs.getString("carta_credito"));
+				user.setIndirizzo(rs.getString("indirizzo"));
+				user.setCap(rs.getString("cap"));
+				user.setAmministratore(rs.getBoolean("amministratore"));
+				user.setValid(true);
+				users.add(user);
+			}
+		}
+		finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} 
+			finally {
+				if (connection != null)
+					connection.close();
+			}
+		}
+		
+		return users;
 	}
 
 }
