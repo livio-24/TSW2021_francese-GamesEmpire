@@ -43,17 +43,6 @@ public class CheckoutServlet extends HttpServlet {
 		
 		try {
 			
-			ArrayList<OrdineBean> ordini = daoOrd.doRetrieveByEmail(user.getEmail());
-			int newId = 0;
-			
-			if(ordini==null || ordini.size()==0) {
-				newId = 1;
-			}
-			else{
-				newId = ordini.get(ordini.size() - 1).getIdOrdine() + 1;
-			}
-			
-			ordine.setIdOrdine(newId);
 			ordine.setEmail(user.getEmail());
 			ordine.setIndirizzo(null);
 			ordine.setCap(null);
@@ -62,6 +51,10 @@ public class CheckoutServlet extends HttpServlet {
 			ordine.setStato("confermato");
 			ordine.setImportoTotale(prezzoTot);
 			daoOrd.doSave(ordine);
+			
+			ArrayList<OrdineBean> ordini = daoOrd.doRetrieveByEmail(user.getEmail());
+			int newId = ordini.get(ordini.size() - 1).getIdOrdine();
+			
 			
 			for(int i = 0; i < cart.size() ; i++) {
 				int qnt = cart.get(i).getQuantitàCarrello();
