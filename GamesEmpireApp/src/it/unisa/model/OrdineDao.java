@@ -172,12 +172,106 @@ public class OrdineDao implements OrdineDaoInterfaccia {
 		String selectSQL = "SELECT * FROM " + OrdineDao.TABLE_NAME;
 
 		if (order != null && !order.equals("")) {
-			selectSQL += " ORDER BY " + order;
+			selectSQL += " ORDER BY ? " ;
 		}
 
 		try {
 			connection = ds.getConnection();
 			preparedStatement = connection.prepareStatement(selectSQL);
+			preparedStatement.setString(1, order);
+
+			ResultSet rs = preparedStatement.executeQuery();
+			
+			while (rs.next()) {
+				OrdineBean ordine = new OrdineBean();
+				ordine.setIdOrdine(rs.getInt("ID_ORDINE"));
+				ordine.setEmail(rs.getString("EMAIL"));
+				ordine.setImportoTotale(rs.getDouble("IMPORTO_TOTALE"));
+				ordine.setStato(rs.getString("STATO"));
+				ordine.setData(rs.getString("DATA_ORDINE"));
+				ordine.setIndirizzo(rs.getString("INDIRIZZO"));
+				ordine.setCap(rs.getString("CAP"));
+				ordine.setCartaCredito(rs.getString("CARTA_CREDITO"));
+				ordini.add(ordine);
+			}
+		}
+		finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} 
+			finally {
+				if (connection != null)
+					connection.close();
+			}
+		}
+		
+		return ordini;
+	}
+	
+	
+	public synchronized ArrayList<OrdineBean> doRetrieveByDate(String da, String a) throws SQLException {
+		
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		ArrayList<OrdineBean> ordini = new ArrayList<OrdineBean>();
+
+		String selectSQL = "SELECT * FROM " + OrdineDao.TABLE_NAME
+						+ " WHERE DATA_ORDINE >= ? AND DATA_ORDINE <= ? "
+						+ " ORDER BY DATA_ORDINE " ;
+
+		try {
+			connection = ds.getConnection();
+			preparedStatement = connection.prepareStatement(selectSQL);
+			preparedStatement.setString(1, da);
+			preparedStatement.setString(2, a);
+
+			ResultSet rs = preparedStatement.executeQuery();
+			
+			while (rs.next()) {
+				OrdineBean ordine = new OrdineBean();
+				ordine.setIdOrdine(rs.getInt("ID_ORDINE"));
+				ordine.setEmail(rs.getString("EMAIL"));
+				ordine.setImportoTotale(rs.getDouble("IMPORTO_TOTALE"));
+				ordine.setStato(rs.getString("STATO"));
+				ordine.setData(rs.getString("DATA_ORDINE"));
+				ordine.setIndirizzo(rs.getString("INDIRIZZO"));
+				ordine.setCap(rs.getString("CAP"));
+				ordine.setCartaCredito(rs.getString("CARTA_CREDITO"));
+				ordini.add(ordine);
+			}
+		}
+		finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} 
+			finally {
+				if (connection != null)
+					connection.close();
+			}
+		}
+		
+		return ordini;
+	}
+	
+	
+	public synchronized ArrayList<OrdineBean> doRetrieveByNominativo(String nome, String cognome) throws SQLException {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		ArrayList<OrdineBean> ordini = new ArrayList<OrdineBean>();
+		
+		String selectSQL = "SELECT * " 
+						+ " FROM " + OrdineDao.TABLE_NAME + " O JOIN CLIENTE C ON O.EMAIL = C.EMAIL "
+						+ " WHERE NOME = ? AND COGNOME = ? ";
+		
+		try {
+			connection = ds.getConnection();
+			preparedStatement = connection.prepareStatement(selectSQL);
+			preparedStatement.setString(1, nome);
+			preparedStatement.setString(2, cognome);
 
 			ResultSet rs = preparedStatement.executeQuery();
 			
