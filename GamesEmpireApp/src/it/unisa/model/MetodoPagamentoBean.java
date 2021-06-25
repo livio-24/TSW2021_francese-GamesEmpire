@@ -10,11 +10,11 @@ private static final long serialVersionUID = 1L;
 	
 	}
 	
-	public int getNumero() {
+	public String getNumero() {
 		return numeroCarta;
 	}
 	
-	public void setNumero(int numero) {
+	public void setNumero(String numero) {
 		this.numeroCarta = numero;
 	}
 	
@@ -34,7 +34,7 @@ private static final long serialVersionUID = 1L;
 		this.scadenza = scadenza;
 	}
 	
-	private int numeroCarta;
+	private String numeroCarta;
 	private String titolare;
 	private String scadenza;
 }

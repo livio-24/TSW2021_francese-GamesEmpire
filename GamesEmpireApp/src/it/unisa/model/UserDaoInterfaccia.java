@@ -11,4 +11,7 @@ public interface UserDaoInterfaccia {
 	
 	public ArrayList<UserBean> doRetrieveAll(String order) throws SQLException;
 
+	public void doUpdateSpedizione(String email, String indirizzo, String cap) throws SQLException;
+	
+	public void doUpdatePagamento(String email, String carta) throws SQLException;
 }

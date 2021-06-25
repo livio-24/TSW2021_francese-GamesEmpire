@@ -52,53 +52,63 @@ function validate(obj) {
 	var nome = document.getElementsByName("nome")[0];
 	if(!checkNomeCognome(nome)) {
 		valid = false;
-		nome.classList.add("error");
+		document.getElementById("errNome").innerHTML = "nome non valido" ;
+		errNome.style.color = "red";
 	} else {
-		nome.classList.remove("error");
+		document.getElementById("errNome").innerHTML = "" ;
 	}
 	
 	var cognome = document.getElementsByName("cognome")[0];
 	if(!checkNomeCognome(cognome)) {
 		valid = false;
-		cognome.classList.add("error");
-	} else {
-		cognome.classList.remove("error");
+		document.getElementById("errCognome").innerHTML = "cognome non valido";
+		errCognome.style.color = "red";
+
+		} else {
+			document.getElementById("errCognome").innerHTML = "";
 	}
 	
 	var email = document.getElementsByName("email")[0];
 	if(!checkEmail(email)) {
 		valid = false;
-		email.classList.add("error");
-	} else {
-		email.classList.remove("error");
-	}		
+		document.getElementById("errEmail").innerHTML = "email non valida";
+		errEmail.style.color = "red";
+		}
+		else {
+			document.getElementById("errEmail").innerHTML = "";	
+		}		
 	
 	var data = document.getElementsByName("nascita")[0];
 	if(!checkData(data)) {
 		valid = false;
-		data.classList.add("error");
-	} else {
-		data.classList.remove("error");
-	}
+		document.getElementById("errNascita").innerHTML = "data non valida";
+		errNascita.style.color = "red";
+		} else {
+			document.getElementById("errNascita").innerHTML = "";
+		}		
 	
-	var user = document.getElementsByName("un")[0];
+	var user = document.getElementsByName("us")[0];
 	if(!checkUserName(user)) {
 		valid = false;
-		user.classList.add("error");
-	} else {
-		user.classList.remove("error");
-	}
+		document.getElementById("errUser").innerHTML = "username non valida";
+		errUser.style.color = "red";
+		}
+		else {
+		document.getElementById("errUser").innerHTML = "";
+		}		
 	
 	var pw = document.getElementsByName("pw")[0];
 	if(!checkPassword(pw)) {
 		valid = false;
-		pw.classList.add("error");
-	} else {
-		pw.classList.remove("error");
-	}		
+		document.getElementById("errPass").innerHTML = "password non valida";
+		errPass.style.color = "red";
+		}
+		else {
+			document.getElementById("errPass").innerHTML = "";
+		}			
 	
 	
-	if(valid) 
+	if(valid)
 		obj.submit();	
 }
 

@@ -27,10 +27,14 @@ public class CheckoutServlet extends HttpServlet {
 		ProdottoDao daoProd = new ProdottoDao();
 		OrdineDao daoOrd = new OrdineDao();
 		ComposizioneDao daoComp = new ComposizioneDao();
+		IndirizzoSpedizioneDao daoSped = new IndirizzoSpedizioneDao();
+		MetodoPagamentoDao daoPag = new MetodoPagamentoDao();
 		
 		UserBean user = (UserBean) request.getSession().getAttribute("currentSessionUser");
 		OrdineBean ordine = new OrdineBean();
 		ComposizioneBean comp = new ComposizioneBean();
+		IndirizzoSpedizioneBean sped = new IndirizzoSpedizioneBean();
+		MetodoPagamentoBean pag = new MetodoPagamentoBean();
 	
 		Carrello cart = (Carrello) request.getSession().getAttribute("cart");
 		Double prezzoTot = cart.calcolaCosto();
@@ -40,13 +44,44 @@ public class CheckoutServlet extends HttpServlet {
 		SimpleDateFormat formatter = new SimpleDateFormat(pattern);
 		String mysqlDateString = formatter.format(now);
 		
+		String nome = request.getParameter("nome");
+		String cognome = request.getParameter("cognome");
+		String telefono = request.getParameter("tel");
+		String città = request.getParameter("città");
+		String ind = request.getParameter("ind");
+		String cap = request.getParameter("cap");
+		String prov = request.getParameter("prov");	
+		
+		String tit = request.getParameter("tit");
+		String numC = request.getParameter("numC");
+		String scad = request.getParameter("scad");
+		
 		
 		try {
 			
+			 if(daoSped.doRetrieveByKey(ind,cap)==null){
+				 sped.setNome(nome);
+				 sped.setCognome(cognome);
+				 sped.setIndirizzo(ind);
+				 sped.setTelefono(telefono);
+				 sped.setCap(cap);
+				 sped.setProvincia(prov);
+				 sped.setCittà(città);
+				 daoSped.doSave(sped);
+			 }
+			  
+			 if(daoPag.doRetrieveByKey(numC)==null){
+				 pag.setTitolare(tit);
+				 pag.setNumero(numC);
+				 pag.setScadenza(scad);
+				 daoPag.doSave(pag);
+			 }
+			 
+			
 			ordine.setEmail(user.getEmail());
-			ordine.setIndirizzo(null);
-			ordine.setCap(null);
-			ordine.setCartaCredito(null);
+			ordine.setIndirizzo(ind);
+			ordine.setCap(cap);
+			ordine.setCartaCredito(numC);
 			ordine.setData(mysqlDateString);
 			ordine.setStato("confermato");
 			ordine.setImportoTotale(prezzoTot);

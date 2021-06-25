@@ -14,4 +14,8 @@ public interface ProdottoDaoInterfaccia {
 	public ArrayList<ProdottoBean> doRetrieveAll(String order) throws SQLException;
 	
 	public void doUpdateQnt(int id, int qnt) throws SQLException;
+	
+	public void doUpdate(ProdottoBean bean) throws SQLException;
+	
+	public ArrayList<ProdottoBean> doRetrieveByPiattaforma(String piattaforma) throws SQLException;
 }

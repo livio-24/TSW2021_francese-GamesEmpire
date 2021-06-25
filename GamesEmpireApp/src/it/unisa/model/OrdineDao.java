@@ -263,7 +263,7 @@ public class OrdineDao implements OrdineDaoInterfaccia {
 
 		ArrayList<OrdineBean> ordini = new ArrayList<OrdineBean>();
 		
-		String selectSQL = "SELECT * " 
+		String selectSQL = "SELECT  O.EMAIL, IMPORTO_TOTALE, STATO, DATA_ORDINE, O.INDIRIZZO, O.CAP, O.CARTA_CREDITO, ID_ORDINE" 
 						+ " FROM " + OrdineDao.TABLE_NAME + " O JOIN CLIENTE C ON O.EMAIL = C.EMAIL "
 						+ " WHERE NOME = ? AND COGNOME = ? ";
 		

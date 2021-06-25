@@ -15,5 +15,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/Users/Livio/Downloads/mysql-connector-java-8.0.21.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Livio/Downloads/jar_files (1)/gson-2.8.2.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

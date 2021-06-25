@@ -37,16 +37,6 @@ public class RegistrazioneServlet extends HttpServlet {
 		String pwd = request.getParameter("pw");
 
 		try {
-			ArrayList<UserBean> users = dao.doRetrieveAll(null);
-			
-			for(UserBean us: users) {
-				if(us.getEmail().equalsIgnoreCase(email) || us.getUsername().equalsIgnoreCase(username)) {
-					
-					response.sendRedirect(request.getContextPath() + "/Registrazione.jsp?action=errReg");
-					return;
-				}
-			}
-			
 			
 			UserBean user = new UserBean();
 			user.setNome(nome);

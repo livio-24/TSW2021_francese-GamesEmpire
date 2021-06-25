@@ -31,6 +31,7 @@ public class CarrelloServlet extends HttpServlet{
 		
 		String action = request.getParameter("action");
 		String quantit‡ = request.getParameter("qnt");
+		String redirectedPage = request.getParameter("page");
 		
 		
 		try {
@@ -41,18 +42,14 @@ public class CarrelloServlet extends HttpServlet{
 				} else if (action.equalsIgnoreCase("deleteC")) {
 					int id = Integer.parseInt(request.getParameter("id"));
 					cart.deleteProdotto(prodDao.doRetrieveByKey(id));
-					RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Carrello.jsp");
-					dispatcher.forward(request, response);
-					return;
+					
 				}
 			}
 				if(quantit‡!=null) {
 					int id = Integer.parseInt(request.getParameter("Id"));
 					ItemCarrello item = cart.getItem(id);
 					item.setQuantit‡Carrello(Integer.parseInt(quantit‡));
-					RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Carrello.jsp");
-					dispatcher.forward(request, response);
-					return;
+					
 				}
 			
 			
@@ -65,8 +62,10 @@ public class CarrelloServlet extends HttpServlet{
 		request.getSession().setAttribute("cart", cart);
 		request.setAttribute("cart", cart);
 		
-		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Catalogo.jsp");
-		dispatcher.forward(request, response);
+		
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/" + redirectedPage);
+			dispatcher.forward(request, response);
+
 	}
 
 	@Override

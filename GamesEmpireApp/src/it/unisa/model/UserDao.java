@@ -181,5 +181,65 @@ public class UserDao implements UserDaoInterfaccia {
 		
 		return users;
 	}
+	
+	public synchronized void doUpdateSpedizione(String email, String indirizzo, String cap) throws SQLException {
+		
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
 
-}
+		String updateSQL = "UPDATE " + UserDao.TABLE_NAME
+				+ " SET INDIRIZZO = ?, CAP = ?"
+				+ " WHERE EMAIL = ? ";
+		
+		try {
+			connection = ds.getConnection();
+			connection.setAutoCommit(false);
+			preparedStatement = connection.prepareStatement(updateSQL);
+			preparedStatement.setString(1, indirizzo);
+			preparedStatement.setString(2, cap);
+			preparedStatement.setString(3, email);
+			preparedStatement.executeUpdate();
+
+			connection.commit();
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} finally {
+				if (connection != null)
+					connection.close();
+			}
+		}
+	}
+	
+	public synchronized void doUpdatePagamento(String email, String carta) throws SQLException {
+		
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		String updateSQL = "UPDATE " + UserDao.TABLE_NAME
+				+ " SET CARTA_CREDITO = ?"
+				+ " WHERE EMAIL = ? ";
+		
+		try {
+			connection = ds.getConnection();
+			connection.setAutoCommit(false);
+			preparedStatement = connection.prepareStatement(updateSQL);
+			preparedStatement.setString(1, carta);
+			preparedStatement.setString(2, email);
+			preparedStatement.executeUpdate();
+
+			connection.commit();
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} finally {
+				if (connection != null)
+					connection.close();
+			}
+		}
+	}
+
+	}
+

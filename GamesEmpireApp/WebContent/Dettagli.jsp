@@ -5,7 +5,7 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Dettagli</title>
-<link href="css/style.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 
@@ -15,16 +15,15 @@
 	<div id="main" class="clear">
 	
 	<%
-		ProdottoBean product = (ProdottoBean) request.getAttribute("product");
+		ProdottoBean product = (ProdottoBean) request.getSession().getAttribute("product");
 	
 		if (product != null) {
 	%>
-	<table >
-		<tr>
-			<td><img src="<%=product.getImmagine()%>" height="200" width="200"> <br><br>
-				 <a href="carrello?action=addC&id=<%=product.getIdProdotto()%>"><button>Aggiungi al carrello</button></a></td>
-			<td>
-				<ul id="listDettagli">	
+		<h2><%=product.getNome() %></h2>
+			<div id="image"><img src="<%=product.getImmagine()%>" height="270" width="250">
+			</div>
+			<div id="listDettagli">
+				<ul>	
 					<li><span class="dettagli"><%=product.getNome()%></span></li>
 					<li><span class="dettagli">Genere</span>: <%=product.getGenere()%></li>
 					<li><span class="dettagli">Piattaforma</span>: <%=product.getPiattaforma()%></li>
@@ -34,16 +33,12 @@
 						<li><span class="dettagli">Disponibilità Immediata</span></li>
 					<%}else{ %>
 						<li><span class="dettagli">Non disponibile</span></li>
-					<%} %>
+					<%}%>
+					<li><a href="carrello?action=addC&id=<%=product.getIdProdotto()%>&page=Dettagli.jsp"><button>Aggiungi al carrello</button></a></li>
 				</ul>
-			</td>
-		</tr>
-		
-	</table>
-	<% } %>
+			</div>
+	<%}%>
 
-	<br>
-	
 	</div>
 			<%@ include file="./fragments/footer.jsp" %>
 	

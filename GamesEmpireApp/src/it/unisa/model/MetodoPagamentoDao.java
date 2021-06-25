@@ -36,13 +36,13 @@ public class MetodoPagamentoDao implements MetodoPagamentoDaoInterfaccia{
 		PreparedStatement preparedStatement = null;
 
 		String insertSQL = "INSERT INTO " + MetodoPagamentoDao.TABLE_NAME
-				+ " (NUMERO_CARTA, TITOLARE, SCADENZA) VALUES (?, ?, ?)";
+				+ " (NUMERO_CARTA, TITOLARE_CARTA, SCADENZA_CARTA) VALUES (?, ?, ?)";
 
 		try {
 			connection = ds.getConnection();
 			connection.setAutoCommit(false);
 			preparedStatement = connection.prepareStatement(insertSQL);
-			preparedStatement.setInt(1, bean.getNumero());
+			preparedStatement.setString(1, bean.getNumero());
 			preparedStatement.setString(2, bean.getTitolare());
 			preparedStatement.setString(3, bean.getScadenza());
 
@@ -65,7 +65,7 @@ public class MetodoPagamentoDao implements MetodoPagamentoDaoInterfaccia{
 
 	
 	@Override
-	public synchronized MetodoPagamentoBean doRetrieveByKey(int numeroCarta) throws SQLException {
+	public synchronized MetodoPagamentoBean doRetrieveByKey(String numeroCarta) throws SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
@@ -77,13 +77,15 @@ public class MetodoPagamentoDao implements MetodoPagamentoDaoInterfaccia{
 		try {
 			connection = ds.getConnection();
 			preparedStatement = connection.prepareStatement(selectSQL);
-			preparedStatement.setInt(1, numeroCarta);
+			preparedStatement.setString(1, numeroCarta);
 
 			ResultSet rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				bean.setTitolare(rs.getString("TITOLARE"));
-				bean.setScadenza(rs.getString("SCADENZA"));
+				bean.setTitolare(rs.getString("TITOLARE_CARTA"));
+				bean.setScadenza(rs.getString("SCADENZA_CARTA"));
+				bean.setNumero(rs.getString("NUMERO_CARTA"));
+
 			}
 
 		} 
@@ -112,7 +114,7 @@ public class MetodoPagamentoDao implements MetodoPagamentoDaoInterfaccia{
 		try {
 			connection = ds.getConnection();
 			preparedStatement = connection.prepareStatement(query);
-			preparedStatement.setInt(1, bean.getNumero());
+			preparedStatement.setString(1, bean.getNumero());
 
 			preparedStatement.executeUpdate();
 		

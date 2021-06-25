@@ -24,16 +24,17 @@ public class DettagliServlet extends HttpServlet {
 		
 		try {
 				int id = Integer.parseInt(request.getParameter("id"));
-				request.removeAttribute("product");
-				request.setAttribute("product", prodDao.doRetrieveByKey(id));
+				request.getSession().removeAttribute("product");
+				request.getSession().setAttribute("product", prodDao.doRetrieveByKey(id));
 			
 			
 		} catch (SQLException e) {
 			System.out.println("Error:" + e.getMessage());
 		}
 		
-		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Dettagli.jsp");
-		dispatcher.forward(request, response);
+		/*RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Dettagli.jsp");
+		dispatcher.forward(request, response);*/
+		response.sendRedirect(request.getContextPath() + "/Dettagli.jsp");
 	}
 
 	

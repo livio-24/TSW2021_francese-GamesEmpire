@@ -226,5 +226,97 @@ public class ProdottoDao implements ProdottoDaoInterfaccia{
 			}
 		}
 	}
+	
+	public synchronized void doUpdate(ProdottoBean product) throws SQLException {
+
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		String updateSQL = "UPDATE " + ProdottoDao.TABLE_NAME
+				+ " SET NOME = ? , QUANTITA = ? , PIATTAFORMA = ?, DESCRIZIONE = ?, PREZZO = ?, GENERE = ?, DATA_USCITA = ?, IN_VENDITA = ?, IVA = ?, IMMAGINE = ?, DESCRIZIONE_DETTAGLIATA = ?"
+				+ " WHERE ID_PRODOTTO = ? ";
+
+		try {
+			connection = ds.getConnection();
+			connection.setAutoCommit(false);
+			preparedStatement = connection.prepareStatement(updateSQL);
+			preparedStatement.setString(1, product.getNome());
+			preparedStatement.setInt(2, product.getQuantità());
+			preparedStatement.setString(3, product.getPiattaforma());
+			preparedStatement.setString(4, product.getDescrizione());
+			preparedStatement.setDouble(5, product.getPrezzo());
+			preparedStatement.setString(6,product.getGenere());
+			preparedStatement.setString(7, product.getDataUscita());
+			preparedStatement.setBoolean(8, true);
+			preparedStatement.setString(9, product.getIva());
+			preparedStatement.setString(10, product.getImmagine());
+			preparedStatement.setString(11, product.getDescrizioneDettagliata());
+			preparedStatement.setInt(12, product.getIdProdotto());
+
+			
+
+			preparedStatement.executeUpdate();
+
+			connection.commit();
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} finally {
+				if (connection != null)
+					connection.close();
+			}
+		}
+	}
+	
+	@Override
+	public synchronized ArrayList<ProdottoBean> doRetrieveByPiattaforma(String piattaforma) throws SQLException {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		ArrayList<ProdottoBean> prodotti = new ArrayList<>();
+
+		String selectSQL = "SELECT * FROM " + ProdottoDao.TABLE_NAME + " WHERE PIATTAFORMA = ?";
+
+		try {
+			connection = ds.getConnection();
+			preparedStatement = connection.prepareStatement(selectSQL);
+			preparedStatement.setString(1, piattaforma);
+
+			ResultSet rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+				ProdottoBean bean = new ProdottoBean();
+				bean.setIdProdotto(rs.getInt("ID_PRODOTTO"));
+				bean.setNome(rs.getString("NOME"));
+				bean.setDescrizione(rs.getString("DESCRIZIONE"));
+				bean.setPrezzo(rs.getDouble("PREZZO"));
+				bean.setQuantità(rs.getInt("QUANTITA"));
+				bean.setPiattaforma(rs.getString("PIATTAFORMA"));
+				bean.setIva(rs.getString("IVA"));
+				bean.setDataUscita(rs.getString("DATA_USCITA"));
+				bean.setInVendita(rs.getBoolean("IN_VENDITA"));
+				bean.setImmagine(rs.getString("IMMAGINE"));
+				bean.setGenere(rs.getString("GENERE"));
+				bean.setDescrizioneDettagliata(rs.getString("DESCRIZIONE_DETTAGLIATA"));
+				
+				prodotti.add(bean);
+
+
+			}
+
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} finally {
+				if (connection != null)
+					connection.close();
+			}
+		}
+		return prodotti;
+	}
+	
+	
 
 }

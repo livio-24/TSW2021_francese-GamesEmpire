@@ -20,8 +20,13 @@ public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doPost(request, response);
+	}
 			
-		UserDao usDao = new UserDao();
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+	UserDao usDao = new UserDao();
 		
 		try
 		{	    
@@ -40,7 +45,7 @@ public class LoginServlet extends HttpServlet {
 		          HttpSession session = request.getSession(true);	    
 		          session.setAttribute("currentSessionUser",user); 
 		          if(checkout!=null)
-		        	  response.sendRedirect(request.getContextPath() + "/Checkout");
+		        	  response.sendRedirect(request.getContextPath() + "/account?page=Checkout.jsp");
 		          
 		          else
 		        	  response.sendRedirect(request.getContextPath() + "/Home.jsp");
@@ -55,10 +60,4 @@ public class LoginServlet extends HttpServlet {
 			System.out.println("Error:" + e.getMessage());
 		}
 		  }
-			
-	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
 	}
-
-}
